@@ -24,7 +24,7 @@ const fleetData = [
     title: "Bus",
     description:
       "Spacious and efficient transport solution for large groups, perfect for intercity travel and events.",
-    image: "/Bus.jpeg",
+    image: "/Bus.png",
     link: "/fleet/city-car",
   },
 ];
