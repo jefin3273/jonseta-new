@@ -17,14 +17,14 @@ const fleetData = [
     title: "Tempo Traveller",
     description:
       "Comfortable and spacious vehicle for group travel, ideal for long trips and family outings.",
-    image: "/Sedan.png",
+    image: "/Tempo.jpeg",
     link: "/fleet/van-truck",
   },
   {
     title: "Bus",
     description:
       "Spacious and efficient transport solution for large groups, perfect for intercity travel and events.",
-    image: "/Sedan.png",
+    image: "/Bus.jpeg",
     link: "/fleet/city-car",
   },
 ];
