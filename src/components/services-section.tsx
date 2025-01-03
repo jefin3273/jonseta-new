@@ -63,6 +63,7 @@ const services = [
 export default function ServicesSection() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [modalOpen, setModalOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",

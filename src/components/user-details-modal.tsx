@@ -1,85 +1,81 @@
-import { useState, useEffect } from "react";
-import { useUser } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState, useEffect } from 'react'
+import { useUser } from '@clerk/nextjs'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { toast } from "@/hooks/use-toast";
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { toast } from "@/hooks/use-toast"
 
 interface UserDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   searchDetails: any;
 }
 
-export function UserDetailsModal({
-  isOpen,
-  onClose,
-  searchDetails,
-}: UserDetailsModalProps) {
-  const { user, isSignedIn } = useUser();
-  const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+export function UserDetailsModal({ isOpen, onClose, searchDetails }: UserDetailsModalProps) {
+  const { user, isSignedIn } = useUser()
+  const [name, setName] = useState('')
+  const [mobile, setMobile] = useState('')
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (isSignedIn && user) {
-      setName(user.fullName || "");
-      setEmail(user.primaryEmailAddress?.emailAddress || "");
-      setMobile(user.primaryPhoneNumber?.phoneNumber || "");
+      setName(user.fullName || '')
+      setEmail(user.primaryEmailAddress?.emailAddress || '')
+      setMobile(user.primaryPhoneNumber?.phoneNumber || '')
     }
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
 
     try {
-      const response = await fetch("/api/submit-request", {
-        method: "POST",
+      const response = await fetch('/api/submit-request', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           name,
           mobile,
           email,
-          service: "Vehicle Search",
+          service: 'Vehicle Search',
           additionalDetails: searchDetails,
         }),
-      });
+      })
 
-      const result = await response.json();
+      const result = await response.json()
 
       if (result.success) {
         toast({
           title: "Search Submitted",
           description: "Your search request has been submitted successfully.",
-        });
-        onClose();
+        })
+        onClose()
       } else {
-        throw new Error(result.message);
+        throw new Error(result.message)
       }
     } catch (error) {
-      console.error("Error sending request:", error);
+      console.error('Error sending request:', error)
       toast({
         title: "Error",
-        description:
-          "There was a problem submitting your search. Please try again.",
+        description: "There was a problem submitting your search. Please try again.",
         variant: "destructive",
-      });
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -132,11 +128,12 @@ export function UserDetailsModal({
           </div>
           <DialogFooter>
             <Button type="submit" disabled={loading}>
-              {loading ? "Submitting..." : "Submit"}
+              {loading ? 'Submitting...' : 'Submit'}
             </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
+

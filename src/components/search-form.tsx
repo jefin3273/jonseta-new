@@ -21,7 +21,6 @@ import { Switch } from "@/components/ui/switch";
 import { CalendarIcon, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import VehicleTypeSelector from "./vehicle-type-selector";
-import { toast } from "@/hooks/use-toast";
 import { UserDetailsModal } from "./user-details-modal";
 
 export default function SearchForm() {
@@ -43,56 +42,6 @@ export default function SearchForm() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setIsModalOpen(true);
-  };
-
-  const handleModalSubmit = async (userDetails: {
-    name: string;
-    mobile: string;
-    email: string;
-  }) => {
-    const searchDetails = {
-      vehicleType,
-      pickupDate,
-      returnDate,
-      sameLocation,
-      age,
-      hasNegotiatedRate,
-      negotiatedRate,
-      location,
-      pickupTime,
-      returnTime,
-      country,
-      ...userDetails,
-    };
-
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(searchDetails),
-      });
-
-      if (response.ok) {
-        toast({
-          title: "Search Submitted",
-          description: "Your search request has been submitted successfully.",
-        });
-      } else {
-        throw new Error("Failed to send email");
-      }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      toast({
-        title: "Error",
-        description:
-          "There was a problem submitting your search. Please try again.",
-        variant: "destructive",
-      });
-    }
-
-    setIsModalOpen(false);
   };
 
   return (
@@ -292,7 +241,19 @@ export default function SearchForm() {
       <UserDetailsModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSubmit={handleModalSubmit}
+        searchDetails={{
+          vehicleType,
+          pickupDate,
+          returnDate,
+          sameLocation,
+          age,
+          hasNegotiatedRate,
+          negotiatedRate,
+          location,
+          pickupTime,
+          returnTime,
+          country,
+        }}
       />
     </>
   );
