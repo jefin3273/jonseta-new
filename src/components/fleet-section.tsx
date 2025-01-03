@@ -7,24 +7,24 @@ import { useInView } from "react-intersection-observer";
 
 const fleetData = [
   {
-    title: "Luxury",
+    title: "Sedan",
     description:
-      "You can choose from a wide range of luxury vehicles made by legendary manufacturers",
-    image: "/fleet/luxury-car.jpg",
+      "You can choose from a wide range of Sedans made by legendary manufacturers",
+    image: "/Sedan.png",
     link: "/fleet/luxury",
   },
   {
-    title: "Van & Truck",
+    title: "Tempo Traveller",
     description:
-      "You're looking for a van or 4x4 for your business or leisure trip, or a van or truck for a job ?",
-    image: "/fleet/van-truck.jpg",
+      "Comfortable and spacious vehicle for group travel, ideal for long trips and family outings.",
+    image: "/Sedan.png",
     link: "/fleet/van-truck",
   },
   {
-    title: "City car",
+    title: "Bus",
     description:
-      "These range from compact and fuel-efficient city to eco-friendly model",
-    image: "/fleet/city-car.jpg",
+      "Spacious and efficient transport solution for large groups, perfect for intercity travel and events.",
+    image: "/Sedan.png",
     link: "/fleet/city-car",
   },
 ];
