@@ -20,7 +20,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Building2, Users, UserCog, Map, Zap, Mail, ArrowRight } from 'lucide-react';
+import {
+  Building2,
+  Users,
+  UserCog,
+  Map,
+  Zap,
+  Mail,
+  ArrowRight,
+} from "lucide-react";
 
 const services = [
   {
@@ -88,15 +96,37 @@ export default function ServicesSection() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/submit-request', {
-        method: 'POST',
+      console.log("Submitting form data:", formData);
+      const response = await fetch("/api/submit-request", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
+      console.log("Response status:", response.status);
+
+      let result;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        result = await response.json();
+      } else {
+        // If the response is not JSON, read it as text
+        const text = await response.text();
+        console.error("Unexpected response:", text);
+        throw new Error("Unexpected response from server");
+      }
+
+      console.log("Response body:", result);
+
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${
+            result.message || "Unknown error"
+          }`
+        );
+      }
 
       if (result.success) {
         toast({
@@ -105,13 +135,18 @@ export default function ServicesSection() {
         });
         setModalOpen(false);
       } else {
-        throw new Error(result.message);
+        throw new Error(
+          result.message || "An error occurred while submitting the request."
+        );
       }
     } catch (error) {
       console.error("Error sending request:", error);
       toast({
         title: "Error",
-        description: "Failed to send request. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to send request. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -184,7 +219,13 @@ export default function ServicesSection() {
           <DialogHeader>
             <DialogTitle>Service Request</DialogTitle>
           </DialogHeader>
-          <form className="space-y-4">
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
             <div>
               <label className="block text-sm font-medium">Name</label>
               <input
@@ -234,8 +275,8 @@ export default function ServicesSection() {
                 ))}
               </select>
             </div>
-            <Button type="button" onClick={handleSubmit} className="w-full" disabled={loading}>
-              {loading ? 'Submitting...' : 'Submit Request'}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Submitting..." : "Submit Request"}
             </Button>
           </form>
         </DialogContent>
@@ -243,4 +284,3 @@ export default function ServicesSection() {
     </section>
   );
 }
-
