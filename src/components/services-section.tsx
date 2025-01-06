@@ -20,15 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Building2,
-  Users,
-  UserCog,
-  Map,
-  Zap,
-  Mail,
-  ArrowRight,
-} from "lucide-react";
+import { Building2, Users, UserCog, Map, Zap, Mail, ArrowRight } from 'lucide-react';
 
 const services = [
   {
@@ -96,11 +88,10 @@ export default function ServicesSection() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      console.log("Submitting form data:", formData);
-      const response = await fetch("/api/submit-request", {
-        method: "POST",
+      const response = await fetch('/api/submit-request', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
@@ -125,18 +116,13 @@ export default function ServicesSection() {
         });
         setModalOpen(false);
       } else {
-        throw new Error(
-          result.message || "An error occurred while submitting the request."
-        );
+        throw new Error(result.message);
       }
     } catch (error) {
       console.error("Error sending request:", error);
       toast({
         title: "Error",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Failed to send request. Please try again.",
+        description: "Failed to send request. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -209,13 +195,7 @@ export default function ServicesSection() {
           <DialogHeader>
             <DialogTitle>Service Request</DialogTitle>
           </DialogHeader>
-          <form
-            className="space-y-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
-          >
+          <form className="space-y-4">
             <div>
               <label className="block text-sm font-medium">Name</label>
               <input
@@ -265,8 +245,8 @@ export default function ServicesSection() {
                 ))}
               </select>
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Submitting..." : "Submit Request"}
+            <Button type="button" onClick={handleSubmit} className="w-full" disabled={loading}>
+              {loading ? 'Submitting...' : 'Submit Request'}
             </Button>
           </form>
         </DialogContent>
@@ -274,3 +254,4 @@ export default function ServicesSection() {
     </section>
   );
 }
+

@@ -2,44 +2,50 @@ import { NextRequest, NextResponse } from 'next/server'
 import sgMail from '@sendgrid/mail'
 import { sql } from '@vercel/postgres'
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || '')
+// Email configuration
+const transporter = createTransport({
+  host: process.env.EMAIL_HOST,
+  port: parseInt(process.env.EMAIL_PORT || '587'),
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+})
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    console.log('Received request body:', body)
-
     const { name, email, mobile, service, additionalDetails } = body
 
-    console.log('Inserting data into database...')
-    const { rows } = await sql`
+    // Store data in Neon database
+    await sql`
       INSERT INTO requests (name, email, mobile, service, additional_details)
       VALUES (${name}, ${email}, ${mobile}, ${service}, ${JSON.stringify(additionalDetails)})
-      RETURNING *
-    `;
-    console.log('Data inserted successfully:', rows[0])
-
-    console.log('Sending email...')
-    const emailContent = `
-      <h1>New Request: ${service}</h1>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Mobile:</strong> ${mobile}</p>
-      <p><strong>Service:</strong> ${service}</p>
-      <h2>Additional Details:</h2>
-      <pre>${JSON.stringify(additionalDetails, null, 2)}</pre>
     `
 
-    const msg = {
-      to: process.env.SENDGRID_TO_EMAIL,
-      from: process.env.SENDGRID_FROM_EMAIL || '',
+    // Send email
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to: process.env.EMAIL_TO,
+      replyTo: email, // Set the reply-to address to the user's email
       subject: `New Request: ${service}`,
-      text: emailContent.replace(/<[^>]+>/g, ''),
-      html: emailContent,
-    }
-
-    await sgMail.send(msg)
-    console.log('Email sent successfully')
+      text: `
+        Name: ${name}
+        Email: ${email}
+        Mobile: ${mobile}
+        Service: ${service}
+        Additional Details: ${JSON.stringify(additionalDetails, null, 2)}
+      `,
+      html: `
+        <h1>New Request: ${service}</h1>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Mobile:</strong> ${mobile}</p>
+        <p><strong>Service:</strong> ${service}</p>
+        <h2>Additional Details:</h2>
+        <pre>${JSON.stringify(additionalDetails, null, 2)}</pre>
+      `,
+    })
 
     return NextResponse.json({ success: true, message: 'Request submitted successfully' })
   } catch (error) {
