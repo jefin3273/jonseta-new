@@ -6,31 +6,38 @@ import SearchForm from "@/components/search-form";
 import FleetSection from "@/components/fleet-section";
 import ServicesSection from "@/components/services-section";
 import Footer from "@/components/footer";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className=" flex flex-col">
       <Header />
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative min-h-screen"
+        className="relative"
       >
         {/* Background image with parallax effect */}
         <motion.div
-          className="absolute inset-0 bg-cover bg-center top-16 sm:top-20"
-          style={{
-            backgroundImage: "url('/background.jpeg')",
-          }}
+          className="relative inset-0 top-16 sm:top-20"
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.8 }}
-        />
+        >
+          <Image
+            src="/background.jpeg"
+            alt="Background"
+            width={1920}
+            height={1080}
+            priority
+            className="object-cover"
+          />
+        </motion.div>
 
         {/* Content */}
-        <div className="relative pt-32 px-4 pb-32">
+        <div className="relative pt-28 px-10 pb-28">
           {" "}
           {/* Added pb-32 for extra space at the bottom */}
           <div className="max-w-7xl mx-auto space-y-12">
@@ -52,7 +59,7 @@ export default function Home() {
         {/* Footer links */}
       </motion.div>
 
-      <div className="flex-grow">
+      <div className="flex-grow mt-20">
         <SearchForm />
         <FleetSection />
         <ServicesSection />
