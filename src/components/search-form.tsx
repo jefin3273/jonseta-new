@@ -35,7 +35,6 @@ export default function SearchForm() {
   const [location, setLocation] = useState("");
   const [pickupTime, setPickupTime] = useState("");
   const [returnTime, setReturnTime] = useState("");
-  const [country, setCountry] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [negotiatedRate, setNegotiatedRate] = useState("");
 
@@ -253,7 +252,6 @@ export default function SearchForm() {
           location,
           pickupTime,
           returnTime,
-          country,
         }}
       />
     </>
