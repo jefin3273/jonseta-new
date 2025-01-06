@@ -6,7 +6,6 @@ import SearchForm from "@/components/search-form";
 import FleetSection from "@/components/fleet-section";
 import ServicesSection from "@/components/services-section";
 import Footer from "@/components/footer";
-import Link from "next/link";
 
 export default function Home() {
   return (
@@ -51,39 +50,6 @@ export default function Home() {
           </div>
         </div>
         {/* Footer links */}
-        <motion.div
-          className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-sm text-white"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <div className="max-w-7xl mx-auto px-4 py-6 flex flex-wrap items-center justify-between gap-4">
-            <Link
-              href="/bookings"
-              className="hover:underline hover:scale-105 transition-transform"
-            >
-              My bookings →
-            </Link>
-            <Link
-              href="/discount"
-              className="hover:underline hover:scale-105 transition-transform"
-            >
-              Members&apos; Discount →
-            </Link>
-            <Link
-              href="/deals"
-              className="hover:underline hover:scale-105 transition-transform"
-            >
-              See all our deals →
-            </Link>
-            <Link
-              href="/business"
-              className="hover:underline hover:scale-105 transition-transform"
-            >
-              Go to Jonseta Business →
-            </Link>
-          </div>
-        </motion.div>
       </motion.div>
 
       <div className="flex-grow">
