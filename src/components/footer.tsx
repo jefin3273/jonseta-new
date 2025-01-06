@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+// import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,7 +20,7 @@ export default function Footer() {
               Your trusted partner in mobility solutions, providing quality
               vehicle rental services since 1949.
             </p>
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               <Link href="#" className="hover:text-white transition-colors">
                 <Facebook className="h-5 w-5" />
               </Link>
@@ -33,7 +33,7 @@ export default function Footer() {
               <Link href="#" className="hover:text-white transition-colors">
                 <Linkedin className="h-5 w-5" />
               </Link>
-            </div>
+            </div> */}
           </div>
 
           {/* Quick Links */}
@@ -141,7 +141,7 @@ export default function Footer() {
                   href="tel:+1234567890"
                   className="hover:text-white transition-colors"
                 >
-                  +1 (234) 567-890
+                  +91
                 </a>
               </li>
               <li>

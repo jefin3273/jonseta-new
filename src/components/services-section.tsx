@@ -20,15 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Building2,
-  Users,
-  UserCog,
-  Map,
-  Zap,
-  Mail,
-  ArrowRight,
-} from "lucide-react";
+import { Building2, UserCog, Map, Zap, Mail, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -37,13 +29,6 @@ const services = [
       "Tailored solutions for businesses with comprehensive fleet management and corporate rates",
     icon: Building2,
     color: "bg-blue-500",
-  },
-  {
-    title: "B2C Rental Services",
-    description:
-      "Flexible rental options for individuals with a wide range of vehicles to choose from",
-    icon: Users,
-    color: "bg-green-500",
   },
   {
     title: "Hire your Driver",

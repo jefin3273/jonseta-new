@@ -40,6 +40,7 @@ export default function SearchForm() {
   const [negotiatedRate, setNegotiatedRate] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
+    console.log(pickupDate, returnDate);
     e.preventDefault();
     setIsModalOpen(true);
   };
@@ -94,7 +95,7 @@ export default function SearchForm() {
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {pickupDate ? (
-                      format(pickupDate, "PPP")
+                      format(pickupDate, "dd/MM/yyyy")
                     ) : (
                       <span>Pick date</span>
                     )}
@@ -148,7 +149,7 @@ export default function SearchForm() {
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
                       {returnDate ? (
-                        format(returnDate, "PPP")
+                        format(returnDate, "dd/MM/yyyy")
                       ) : (
                         <span>Return date</span>
                       )}
@@ -192,7 +193,7 @@ export default function SearchForm() {
                 </SelectContent>
               </Select>
 
-              <Select value={country} onValueChange={setCountry}>
+              {/* <Select value={country} onValueChange={setCountry}>
                 <SelectTrigger className="w-full sm:w-[200px]">
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
@@ -201,7 +202,7 @@ export default function SearchForm() {
                   <SelectItem value="us">United States</SelectItem>
                   <SelectItem value="uk">United Kingdom</SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-2">

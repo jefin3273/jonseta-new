@@ -20,7 +20,7 @@ export default function Home() {
       >
         {/* Background image with parallax effect */}
         <motion.div
-          className="absolute inset-0 bg-cover bg-center top-16"
+          className="absolute inset-0 bg-cover bg-center top-16 sm:top-20"
           style={{
             backgroundImage: "url('/background.jpeg')",
           }}

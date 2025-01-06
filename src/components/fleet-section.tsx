@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 
 const fleetData = [
@@ -64,12 +63,12 @@ export default function FleetSection() {
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
                 <p className="text-gray-600 mb-4">{item.description}</p>
-                <Link
+                {/* <Link
                   href={item.link}
                   className="inline-block text-green-600 hover:text-green-700 font-medium transition-colors"
                 >
                   See more
-                </Link>
+                </Link> */}
               </div>
 
               <motion.div
