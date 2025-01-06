@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import sgMail from '@sendgrid/mail'
 import { sql } from '@vercel/postgres'
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '')
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     console.log('Received request body:', body)
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     }
     return NextResponse.json(
       { success: false, message: errorMessage },
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500 }
     )
   }
 }
