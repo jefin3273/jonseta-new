@@ -20,7 +20,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Building2, Users, UserCog, Map, Zap, Mail, ArrowRight } from 'lucide-react';
+import {
+  Building2,
+  Users,
+  UserCog,
+  Map,
+  Zap,
+  Mail,
+  ArrowRight,
+} from "lucide-react";
 
 const services = [
   {
@@ -88,10 +96,10 @@ export default function ServicesSection() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/submit-request', {
-        method: 'POST',
+      const response = await fetch("/api/submit-request", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -245,8 +253,13 @@ export default function ServicesSection() {
                 ))}
               </select>
             </div>
-            <Button type="button" onClick={handleSubmit} className="w-full" disabled={loading}>
-              {loading ? 'Submitting...' : 'Submit Request'}
+            <Button
+              type="button"
+              onClick={handleSubmit}
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit Request"}
             </Button>
           </form>
         </DialogContent>
@@ -254,4 +267,3 @@ export default function ServicesSection() {
     </section>
   );
 }
-

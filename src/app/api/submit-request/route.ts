@@ -1,67 +1,56 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import sgMail from '@sendgrid/mail'
 import { sql } from '@vercel/postgres'
 
-// Email configuration
-const transporter = createTransport({
-  host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT || '587'),
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-})
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || '')
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const body = await req.json()
+    console.log('Received request body:', body)
+
     const { name, email, mobile, service, additionalDetails } = body
 
-    // Store data in Neon database
+    // Insert into database
     await sql`
       INSERT INTO requests (name, email, mobile, service, additional_details)
       VALUES (${name}, ${email}, ${mobile}, ${service}, ${JSON.stringify(additionalDetails)})
     `
 
     // Send email
-    await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
-      to: process.env.EMAIL_TO,
-      replyTo: email, // Set the reply-to address to the user's email
-      subject: `New Request: ${service}`,
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Mobile: ${mobile}
-        Service: ${service}
-        Additional Details: ${JSON.stringify(additionalDetails, null, 2)}
-      `,
-      html: `
-        <h1>New Request: ${service}</h1>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Mobile:</strong> ${mobile}</p>
-        <p><strong>Service:</strong> ${service}</p>
-        <h2>Additional Details:</h2>
-        <pre>${JSON.stringify(additionalDetails, null, 2)}</pre>
-      `,
-    })
+    const emailContent = `
+      <h1>New Request: ${service}</h1>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Mobile:</strong> ${mobile}</p>
+      <p><strong>Service:</strong> ${service}</p>
+      <h2>Additional Details:</h2>
+      <pre>${JSON.stringify(additionalDetails, null, 2)}</pre>
+    `
 
-    return NextResponse.json({ success: true, message: 'Request submitted successfully' })
-  } catch (error) {
-    console.error('Detailed error:', error)
-    let errorMessage = 'Failed to process request'
-    if (error instanceof Error) {
-      errorMessage = error.message
+    const msg = {
+      to: process.env.SENDGRID_TO_EMAIL || '',
+      from: process.env.SENDGRID_FROM_EMAIL || '',
+      subject: `New Request: ${service}`,
+      text: emailContent.replace(/<[^>]+>/g, ''),
+      html: emailContent,
     }
+
+    await sgMail.send(msg)
+
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Request submitted successfully' 
+    })
+  } catch (error) {
+    console.error('Error processing request:', error)
     return NextResponse.json(
-      { success: false, message: errorMessage },
+      { 
+        success: false, 
+        message: 'Failed to process request. Please try again.' 
+      },
       { status: 500 }
     )
   }
-}
-
-export const config = {
-  runtime: 'nodejs',
 }
 
