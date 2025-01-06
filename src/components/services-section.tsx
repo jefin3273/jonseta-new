@@ -107,26 +107,12 @@ export default function ServicesSection() {
 
       console.log("Response status:", response.status);
 
-      let result;
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.indexOf("application/json") !== -1) {
-        result = await response.json();
-      } else {
-        // If the response is not JSON, read it as text
-        const text = await response.text();
-        console.error("Unexpected response:", text);
-        throw new Error("Unexpected response from server");
-      }
-
-      console.log("Response body:", result);
-
       if (!response.ok) {
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${
-            result.message || "Unknown error"
-          }`
-        );
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      const result = await response.json();
+      console.log("Response body:", result);
 
       if (result.success) {
         toast({
