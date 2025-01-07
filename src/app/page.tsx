@@ -59,7 +59,7 @@ export default function Home() {
         {/* Footer links */}
       </motion.div>
 
-      <div className="flex-grow mt-20">
+      <div className="flex-grow">
         <SearchForm />
         <FleetSection />
         <ServicesSection />
