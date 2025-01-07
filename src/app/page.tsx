@@ -37,7 +37,7 @@ export default function Home() {
         </motion.div>
 
         {/* Content */}
-        <div className="relative pt-28 px-10 pb-28">
+        <div className="relative px-2 pb-1">
           {" "}
           {/* Added pb-32 for extra space at the bottom */}
           <div className="max-w-7xl mx-auto space-y-12">
