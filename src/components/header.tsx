@@ -3,9 +3,10 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Menu, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+// import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function Header() {
-  const [country, setCountry] = useState("IN");
+  // const [country, setCountry] = useState("IN");
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md">
@@ -39,23 +40,20 @@ export default function Header() {
             </SignInButton>
           </SignedOut>
 
-          <button
-            className="flex items-center gap-1 px-2 py-1 text-sm"
-            onClick={() => setCountry(country === "IN" ? "US" : "IN")}
-          >
+          <button className="flex items-center gap-1 px-2 py-1 text-sm">
             <Image
-              src={`/flags/${country.toLowerCase()}.svg`}
-              alt={country}
+              src="/flags/in.svg"
+              alt="India"
               width={20}
               height={15}
               className="rounded"
             />
-            <span>{country}</span>
+            <span>India</span>
           </button>
 
-          <Button variant="ghost" size="icon">
+          {/* <Button variant="ghost" size="icon">
             <HelpCircle className="h-5 w-5" />
-          </Button>
+          </Button> */}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -67,7 +65,7 @@ export default function Header() {
               <DropdownMenuItem>
                 <Link href="/about">About Us</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <Link href="/locations">Locations</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
@@ -75,7 +73,7 @@ export default function Header() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link href="/services">Services</Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem>
                 <Link href="/contact">Contact</Link>
               </DropdownMenuItem>

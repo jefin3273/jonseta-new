@@ -5,7 +5,6 @@ import Header from "@/components/header";
 import SearchForm from "@/components/search-form";
 import FleetSection from "@/components/fleet-section";
 import ServicesSection from "@/components/services-section";
-import Footer from "@/components/footer";
 import Image from "next/image";
 
 export default function Home() {
@@ -64,7 +63,6 @@ export default function Home() {
         <FleetSection />
         <ServicesSection />
       </div>
-      <Footer />
     </div>
   );
 }
