@@ -3,14 +3,15 @@ import sgMail from '@sendgrid/mail'
 import { sql } from '@vercel/postgres'
 import { z } from 'zod'
 
+// Initialize SendGrid with API key
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '')
 
-const requestSchema = z.object({
+const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters long"),
   email: z.string().email("Invalid email address"),
   mobile: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
-  service: z.string().min(1, "Service is required"),
-  additionalDetails: z.record(z.unknown()).optional(),
+  service: z.enum(["Fleet Management", "Vehicle Maintenance", "Driver Services", "Business Solutions"]),
+  additionalDetails: z.string().max(1000, "Additional details must be 1000 characters or less").optional(),
 })
 
 export async function POST(req: Request) {
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
     const body = await req.json()
     console.log('Received request body:', body)
 
-    const validatedData = requestSchema.parse(body)
+    const validatedData = contactSchema.parse(body)
 
     // Insert into database
     await sql`
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
 
     // Send email
     const emailContent = `
-      <h1>Service Request: ${validatedData.service}</h1>
+      <h1>Contact Us Request: ${validatedData.service}</h1>
       <p><strong>Name:</strong> ${validatedData.name}</p>
       <p><strong>Email:</strong> ${validatedData.email}</p>
       <p><strong>Mobile:</strong> ${validatedData.mobile}</p>
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
     const msg = {
       to: process.env.SENDGRID_TO_EMAIL || '',
       from: process.env.SENDGRID_FROM_EMAIL || '',
-      subject: `Service Request: ${validatedData.service}`,
+      subject: `Contact Us Request: ${validatedData.service}`,
       text: emailContent.replace(/<[^>]+>/g, ''),
       html: emailContent,
     }

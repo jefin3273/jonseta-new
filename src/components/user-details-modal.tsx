@@ -10,13 +10,19 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const userDetailsSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters long"),
+  email: z.string().email("Invalid email address"),
+  mobile: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
+});
 
 interface UserDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  searchDetails: any;
+  searchDetails: Record<string, unknown>;
 }
 
 export function UserDetailsModal({
@@ -24,25 +30,30 @@ export function UserDetailsModal({
   onClose,
   searchDetails,
 }: UserDetailsModalProps) {
-  const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: "",
+    mobile: "",
+    email: "",
+  });
+  const [errors, setErrors] = useState<z.ZodIssue[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrors([]);
 
     try {
+      const validatedData = userDetailsSchema.parse(formData);
+
       const response = await fetch("/api/submit-request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
-          mobile,
-          email,
+          ...validatedData,
           service: "Vehicle Search",
           additionalDetails: searchDetails,
         }),
@@ -60,13 +71,17 @@ export function UserDetailsModal({
         throw new Error(result.message);
       }
     } catch (error) {
-      console.error("Error sending request:", error);
-      toast({
-        title: "Error",
-        description:
-          "There was a problem submitting your search. Please try again.",
-        variant: "destructive",
-      });
+      if (error instanceof z.ZodError) {
+        setErrors(error.errors);
+      } else {
+        console.error("Error sending request:", error);
+        toast({
+          title: "Error",
+          description:
+            "There was a problem submitting your search. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -87,38 +102,62 @@ export function UserDetailsModal({
               <Label htmlFor="name" className="text-right">
                 Name
               </Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="col-span-3"
-                required
-              />
+              <div className="col-span-3">
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  className="w-full"
+                />
+                {errors.find((e) => e.path[0] === "name") && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.find((e) => e.path[0] === "name")?.message}
+                  </p>
+                )}
+              </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="mobile" className="text-right">
                 Mobile
               </Label>
-              <Input
-                id="mobile"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-                className="col-span-3"
-                required
-              />
+              <div className="col-span-3">
+                <Input
+                  id="mobile"
+                  value={formData.mobile}
+                  onChange={(e) =>
+                    setFormData({ ...formData, mobile: e.target.value })
+                  }
+                  className="w-full"
+                />
+                {errors.find((e) => e.path[0] === "mobile") && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.find((e) => e.path[0] === "mobile")?.message}
+                  </p>
+                )}
+              </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="email" className="text-right">
                 Email
               </Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="col-span-3"
-                required
-              />
+              <div className="col-span-3">
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className="w-full"
+                />
+                {errors.find((e) => e.path[0] === "email") && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.find((e) => e.path[0] === "email")?.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
           <DialogFooter>

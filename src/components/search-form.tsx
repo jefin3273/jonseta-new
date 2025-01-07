@@ -30,7 +30,7 @@ export default function SearchForm() {
   const [pickupDate, setPickupDate] = useState<Date>();
   const [returnDate, setReturnDate] = useState<Date>();
   const [sameLocation, setSameLocation] = useState(true);
-  const [age, setAge] = useState("26+");
+  // const [age, setAge] = useState("26+");
   const [hasNegotiatedRate, setHasNegotiatedRate] = useState(false);
   const [location, setLocation] = useState("");
   const [pickupTime, setPickupTime] = useState("");
@@ -182,7 +182,7 @@ export default function SearchForm() {
 
           <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-4 items-end">
             <div className="flex flex-col sm:flex-row gap-4">
-              <Select value={age} onValueChange={setAge}>
+              {/* <Select value={age} onValueChange={setAge}>
                 <SelectTrigger className="w-full sm:w-[200px]">
                   <SelectValue placeholder="Select age" />
                 </SelectTrigger>
@@ -190,7 +190,7 @@ export default function SearchForm() {
                   <SelectItem value="18-25">18-25 years</SelectItem>
                   <SelectItem value="26+">26+ years</SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
 
               {/* <Select value={country} onValueChange={setCountry}>
                 <SelectTrigger className="w-full sm:w-[200px]">
@@ -246,7 +246,7 @@ export default function SearchForm() {
           pickupDate,
           returnDate,
           sameLocation,
-          age,
+          // age,
           hasNegotiatedRate,
           negotiatedRate,
           location,

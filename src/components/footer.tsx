@@ -6,7 +6,8 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        {/* Main Grid for Footer Sections */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8">
           {/* Company Info */}
           <div className="space-y-4">
             <Image
@@ -14,26 +15,13 @@ export default function Footer() {
               alt="Jonseta"
               width={150}
               height={40}
-              className="h-25 w-auto"
+              className="h-auto w-auto"
             />
             <p className="text-sm">
-              Your trusted partner in mobility solutions, providing quality
-              vehicle rental services since 1949.
+              We are Jonseta Corp, a fleet management business providing
+              comprehensive vehicle management solutions for companies and their
+              employees.
             </p>
-            {/* <div className="flex space-x-4">
-              <Link href="#" className="hover:text-white transition-colors">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </Link>
-            </div> */}
           </div>
 
           {/* Quick Links */}
@@ -134,14 +122,15 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
-              <li>1234 Street Name</li>
-              <li>City, State 12345</li>
+              <li>201/A, Kailas Esplanade, LBS Marg</li>
+              <li>Opp. Shreyas, Ghatkopar (W) </li>
+              <li>Mumbai, Maharashtra, India 400086 </li>
               <li>
                 <a
-                  href="tel:+1234567890"
+                  href="tel:7897898943"
                   className="hover:text-white transition-colors"
                 >
-                  +91
+                  +91 7897898943
                 </a>
               </li>
               <li>
@@ -149,13 +138,14 @@ export default function Footer() {
                   href="mailto:info@Jonseta.com"
                   className="hover:text-white transition-colors"
                 >
-                  info@Jonseta.com
+                  contact@Jonseta.com
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
+        {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-gray-800 text-sm text-center">
           <p>&copy; {new Date().getFullYear()} Jonseta. All rights reserved.</p>
         </div>

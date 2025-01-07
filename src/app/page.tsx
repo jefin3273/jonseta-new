@@ -32,7 +32,7 @@ export default function Home() {
             width={1920}
             height={1080}
             priority
-            className="object-fill w-full h-full"
+            className="object-fill w-full h-full scale-125 mt-5"
           />
         </motion.div>
 
@@ -59,7 +59,7 @@ export default function Home() {
         {/* Footer links */}
       </motion.div>
 
-      <div className="flex-grow">
+      <div className="flex-grow mt-20">
         <SearchForm />
         <FleetSection />
         <ServicesSection />
