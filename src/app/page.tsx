@@ -32,7 +32,7 @@ export default function Home() {
             width={1920}
             height={1080}
             priority
-            className="object-cover"
+            className="object-fill w-full h-full"
           />
         </motion.div>
 
