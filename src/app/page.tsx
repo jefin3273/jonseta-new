@@ -16,7 +16,7 @@ export default function Home() {
         className="flex-grow"
       >
         {/* Hero Section */}
-        <section className="relative h-[18vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
+        <section className="relative h-[32vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
           <motion.div
             className="absolute inset-0"
             initial={{ scale: 1.1 }}
