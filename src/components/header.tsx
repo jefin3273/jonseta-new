@@ -63,7 +63,7 @@ export default function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>
-                <Link href="/about">About Us</Link>
+                <Link href="/about-us">About Us</Link>
               </DropdownMenuItem>
               {/* <DropdownMenuItem>
                 <Link href="/locations">Locations</Link>
